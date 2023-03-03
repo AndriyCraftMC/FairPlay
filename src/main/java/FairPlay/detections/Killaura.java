@@ -29,13 +29,12 @@ public class Killaura implements Listener {
     private static final ArrayList nonpcs = new ArrayList();
 
     public static final ArrayList vl1 = new ArrayList();
-    public static final ArrayList vl4 = new ArrayList();
-    public static final ArrayList vl5 = new ArrayList();
-    public static final ArrayList hit1 = new ArrayList();
+    public static final ArrayList vl2 = new ArrayList();
+    public static final ArrayList vl3 = new ArrayList();
+    
     public static void generateNPC(EntityDamageByEntityEvent e) {
         Player player = (Player) e.getDamager();
-        hit1.add(player);
-        if (!hit1.contains(player)) return;
+
         if (nonpcs.contains(player)) {
             return;
         }
@@ -100,16 +99,16 @@ public class Killaura implements Listener {
                             Bukkit.getScheduler().runTask(Bukkit.getPluginManager().getPlugin("FairPlay"), new Runnable() {
                                 public void run() {
                                     if (vl1.contains(player)) {
-                                        if (vl4.contains(player)) {
-                                            if (vl5.contains(player)) {
+                                        if (vl2.contains(player)) {
+                                            if (vl3.contains(player)) {
                                                 Logger.log(player.getDisplayName() + " failed Killaura VL 100% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
                                                 Ban.ban(player);
                                             } else {
-                                                vl5.add(player);
+                                                vl3.add(player);
                                             }
                                         } else {
-                                            Logger.log(player.getDisplayName() + " failed Killaura VL 80% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
-                                            vl4.add(player);
+                                            Logger.log(player.getDisplayName() + " failed Killaura VL 50% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
+                                            vl2.add(player);
                                         }
                                     } else {
                                         Logger.log(player.getDisplayName() + " failed Killaura VL 20% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
@@ -132,7 +131,6 @@ public class Killaura implements Listener {
                 public void run() {
                     npc.yaw = getRotation(npc.getBukkitEntity().getLocation(), player.getLocation());
 
-
                     npc.setLocation(
                             player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -3 - 1)))).getX(),
                             player.getLocation().getY() + player.getLocation().getPitch() / 40,
@@ -142,7 +140,6 @@ public class Killaura implements Listener {
                     );
 
                     connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) ((npc.yaw * 256.0F) / 360.0F)));
-
 
                     connection.sendPacket(new PacketPlayOutEntityTeleport(npc));
                 }
