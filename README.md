@@ -4,13 +4,13 @@ An anticheat, that i made, and i use it on my servers
 
 Also this AC contains badusername check, ad-bot checks, and other checks not related to hacking
 
-Please, do not use this anticheat on your servers.
+Please, do not use this anticheat on your servers (i made it only for my own server).
 
 Only 1.12.2 is supported
 
 # Current checks
 
-1. Killaura
+1. Killaura/Multiaura
 2. Fly (mostly)
 3. KBFly 
 4. Selfhit
