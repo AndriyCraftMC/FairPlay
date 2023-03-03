@@ -22,13 +22,11 @@ public class DropAll implements Listener {
         for (Player item : Items.getItems()) {
             if (item == p) {
                 timesfound++;
-                if (timesfound > 20) {
+                if (timesfound > 15) {
                     Logger.log(e.getPlayer().getDisplayName() + " failed .drop all (+9 items) VL 100%");
                     Ban.ban(e.getPlayer());
                 }
             }
         }
     }
-
-
 }
