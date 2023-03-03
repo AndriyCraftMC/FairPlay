@@ -19,6 +19,7 @@ Only 1.12.2 is supported
 7. Badusernames
 8. Speed (mostly)
 9. .drop all crash
+10. Fancychat
 
 # TODO list
 
@@ -29,6 +30,7 @@ Only 1.12.2 is supported
 3. [ ] Fully patch fly
 
 4. [ ] Fully patch speed
+
 
 # License
 
