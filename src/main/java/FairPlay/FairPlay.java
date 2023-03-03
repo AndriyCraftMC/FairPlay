@@ -21,16 +21,18 @@ public final class FairPlay extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Killaura(), this);
         Bukkit.getPluginManager().registerEvents(new Speed(), this);
         Bukkit.getPluginManager().registerEvents(new Selfhit(), this);
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 Items.getItems().clear();
             }
         }, 5L, 5L);
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 Killaura.vl1.clear();
-                Killaura.vl4.clear();
-                Killaura.vl5.clear();
+                Killaura.vl2.clear();
+                Killaura.vl3.clear();
             }
         }, 60L, 60L);
 
