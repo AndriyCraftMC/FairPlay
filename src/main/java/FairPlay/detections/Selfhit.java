@@ -14,9 +14,9 @@ public class Selfhit implements Listener {
             Player player = (Player) e.getDamager();
 
             if (e.getEntity() == player) {
+                e.setCancelled(true);
                 Logger.log(player.getDisplayName() + " failed Selfhit VL 100% | Is authed: " + player.hasPermission("ac.execnpccmds"));
                 Ban.ban(player);
-                e.setCancelled(true);
             }
         }
     }
