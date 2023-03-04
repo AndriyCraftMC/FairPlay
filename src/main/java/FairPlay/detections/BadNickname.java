@@ -22,7 +22,15 @@ public class BadNickname implements Listener {
         if (e.getPlayer().getDisplayName().toLowerCase().contains("fuck")
                 || e.getPlayer().getDisplayName().toLowerCase().contains("dick")
                 || e.getPlayer().getDisplayName().toLowerCase().contains("gay")
-                || e.getPlayer().getDisplayName().toLowerCase().contains("cum")|| e.getPlayer().getDisplayName().toLowerCase().contains("ponos")|| e.getPlayer().getDisplayName().toLowerCase().contains("retard")|| e.getPlayer().getDisplayName().toLowerCase().contains("fuck")|| e.getPlayer().getDisplayName().toLowerCase().contains("cock")|| e.getPlayer().getDisplayName().toLowerCase().contains("sperm")|| e.getPlayer().getDisplayName().toLowerCase().contains("butt")|| e.getPlayer().getDisplayName().toLowerCase().contains("ass")|| e.getPlayer().getDisplayName().toLowerCase().contains("lesbian")) {
+                || e.getPlayer().getDisplayName().toLowerCase().contains("cum")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("ponos")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("retard")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("fuck")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("cock")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("sperm")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("butt")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("ass")
+                || e.getPlayer().getDisplayName().toLowerCase().contains("lesbian")) {
             Logger.log(e.getPlayer().getDisplayName() + " failed BadUsername VL 100% ");
             e.getPlayer().kickPlayer("§cВаше ім'я користувача не є приємлевим для сервера. Будь ласка поміняйте його. Ваше ім'я користувача не може містити погані слова");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ban " + e.getPlayer().getDisplayName().replace("§r", "") + " Ваше ім'я користувача не може містити погані слова");
