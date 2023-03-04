@@ -74,7 +74,6 @@ public class Killaura implements Listener {
                         return null;
                     });
                     nonpcs.remove(player);
-                    hit1.remove(player);
                     connection.sendPacket(new PacketPlayOutEntityDestroy(npc.getBukkitEntity().getEntityId()));
                     connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
                 }
