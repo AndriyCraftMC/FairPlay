@@ -20,7 +20,7 @@ public class Logger {
 
             String server = Paths.get(".").toAbsolutePath().normalize().toString();
             String path = server + "//plugins//FairPlay//";
-            String msg = message + "\n";
+            String msg = "FairPlay | " + message + "\n";
             Files.write(Paths.get(path + "/flags.log"), msg.getBytes(), StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();

@@ -38,9 +38,6 @@ public class Killaura_1_12_2 implements Listener {
 
             String name = "§7 z" + UsernameGenerator.generateRandomString();
 
-            if (e.getEntity() instanceof Player) {
-                name = "§7 " + ((Player) e.getEntity()).getDisplayName().replace("§c","").replace("§6","").replace("§b","").replace("§5","");
-            }
 
             MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
             WorldServer world = ((CraftWorld) Bukkit.getWorlds().get(0)).getHandle();
@@ -153,18 +150,17 @@ public class Killaura_1_12_2 implements Listener {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("FairPlay"), new Runnable() {
                 public void run() {
                     npc.yaw = getRotation(npc.getBukkitEntity().getLocation(), player.getLocation());
+                    Location playerLoc = player.getLocation();
+                    Location npcLoc = playerLoc.add(playerLoc.getDirection().multiply((double) ((int) (Math.random() * -5 - 1))));
 
-                    npc.setLocation(
-                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -5 - 1)))).getX(),
-                            player.getLocation().getY() + player.getLocation().getPitch() / 40 + 3,
-                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -5 - 1)))).getZ(),
-                            npc.yaw,
-                            0
-                    );
+                    if (playerLoc.getPitch() < -60) {
+                        npcLoc.setY(npcLoc.getY() - 3);
+                    } else {
+                        npcLoc.setY(npcLoc.getY() + 2);
+                    }
 
+                    npc.setLocation(npcLoc.getX(), npcLoc.getY(), npcLoc.getZ(), npc.yaw, 0);
                     connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) ((npc.yaw * 256.0F) / 360.0F)));
-
-
                     connection.sendPacket(new PacketPlayOutEntityTeleport(npc));
                 }
             }, 1L, 1L);
