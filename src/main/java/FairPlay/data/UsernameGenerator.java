@@ -6,7 +6,7 @@ public class UsernameGenerator {
     public static String generateRandomString() {
         int leftLimit = 97;
         int rightLimit = 122;
-        int targetStringLength = 10;
+        int targetStringLength = 5;
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
@@ -14,7 +14,6 @@ public class UsernameGenerator {
                     (random.nextFloat() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
-        String generatedString = buffer.toString();
-        return generatedString;
+        return buffer.toString();
     }
 }

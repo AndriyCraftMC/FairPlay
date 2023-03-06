@@ -2,20 +2,19 @@ package FairPlay.detections;
 
 import FairPlay.data.Ban;
 import FairPlay.log.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class FancyChat implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
-    public static void oc(PlayerChatEvent e) {
+    public static void oc(AsyncPlayerChatEvent e) {
         String message = e.getMessage();
         if (containsFancyCharacters(message)) {
             e.setCancelled(true);
             String playerName = e.getPlayer().getDisplayName();
-            String logMessage = playerName + " failed FancyChat. Message: " + message + " . VL 95% | Is authed: " + e.getPlayer().hasPermission("ac.execnpccmds");
+            String logMessage = playerName + " failed FancyChat. Message: " + message + ". Hacking possibility: 95%";
             Logger.log(logMessage);
             e.getPlayer().kickPlayer("§cВтрачено підключення до сервера");
             Ban.ban(e.getPlayer());

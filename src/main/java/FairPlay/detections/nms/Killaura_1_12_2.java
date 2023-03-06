@@ -1,4 +1,4 @@
-package FairPlay.detections;
+package FairPlay.detections.nms;
 
 import FairPlay.data.Ban;
 import FairPlay.data.UsernameGenerator;
@@ -21,39 +21,66 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
-public class Killaura implements Listener {
-    private static final ArrayList nonpcs = new ArrayList();
+public class Killaura_1_12_2 implements Listener {
+    public static ArrayList<Player> killauravl = new ArrayList<>();
+    public static ArrayList<Player> nonpcs = new ArrayList<>();
 
-    public static final ArrayList vl1 = new ArrayList();
-    public static final ArrayList vl4 = new ArrayList();
-    public static final ArrayList vl5 = new ArrayList();
-    public static final ArrayList hit1 = new ArrayList();
     public static void generateNPC(EntityDamageByEntityEvent e) {
-        Player player = (Player) e.getDamager();
-        hit1.add(player);
-        if (!hit1.contains(player)) return;
-        if (nonpcs.contains(player)) {
-            return;
-        }
+        try {
+            Player player = (Player) e.getDamager();
 
-        nonpcs.add(player);
+            if (nonpcs.contains(player)) {
+                return;
+            }
+            nonpcs.add(player);
 
-        MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
+            String name = "§7 z" + UsernameGenerator.generateRandomString();
+
+            if (e.getEntity() instanceof Player) {
+                name = "§7 " + ((Player) e.getEntity()).getDisplayName().replace("§c","").replace("§6","").replace("§b","").replace("§5","");
+            }
+
+            MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
             WorldServer world = ((CraftWorld) Bukkit.getWorlds().get(0)).getHandle();
             UUID uuid = UUID.fromString(String.valueOf(UUID.randomUUID()));
             EntityPlayer npc = new EntityPlayer(server, world,
-                    new GameProfile(uuid, "§7 z" + UsernameGenerator.generateRandomString()),
+                    new GameProfile(uuid, name),
                     new PlayerInteractManager(world));
 
 
-            Item[] armorItems1 = { Items.LEATHER_HELMET, Items.CHAINMAIL_HELMET, Items.IRON_HELMET, Items.DIAMOND_HELMET, Items.GOLDEN_HELMET };
-            Item[] armorItems2 = { Items.CHAINMAIL_CHESTPLATE, Items.DIAMOND_CHESTPLATE, Items.IRON_CHESTPLATE, Items.LEATHER_CHESTPLATE, Items.GOLDEN_CHESTPLATE };
-            Item[] armorItems3 = { Items.CHAINMAIL_LEGGINGS, Items.LEATHER_LEGGINGS, Items.DIAMOND_LEGGINGS, Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS };
-            Item[] armorItems4 = { Items.CHAINMAIL_BOOTS, Items.DIAMOND_BOOTS, Items.GOLDEN_BOOTS, Items.LEATHER_BOOTS, Items.IRON_BOOTS };
+            Item[] armorItems1 = {
+                    Items.LEATHER_HELMET,
+                    Items.CHAINMAIL_HELMET,
+                    Items.IRON_HELMET,
+                    Items.DIAMOND_HELMET,
+                    Items.GOLDEN_HELMET
+            };
+
+            Item[] armorItems2 = {
+                    Items.CHAINMAIL_CHESTPLATE,
+                    Items.DIAMOND_CHESTPLATE,
+                    Items.IRON_CHESTPLATE,
+                    Items.LEATHER_CHESTPLATE,
+                    Items.GOLDEN_CHESTPLATE
+            };
+
+            Item[] armorItems3 = {
+                    Items.CHAINMAIL_LEGGINGS,
+                    Items.LEATHER_LEGGINGS,
+                    Items.DIAMOND_LEGGINGS,
+                    Items.IRON_LEGGINGS,
+                    Items.GOLDEN_LEGGINGS
+            };
+
+            Item[] armorItems4 = {
+                    Items.CHAINMAIL_BOOTS,
+                    Items.DIAMOND_BOOTS,
+                    Items.GOLDEN_BOOTS,
+                    Items.LEATHER_BOOTS,
+                    Items.IRON_BOOTS
+            };
             Random random = new Random();
 
             npc.setSlot(EnumItemSlot.HEAD, new ItemStack(armorItems1[random.nextInt(armorItems1.length)]));
@@ -75,11 +102,10 @@ public class Killaura implements Listener {
                         return null;
                     });
                     nonpcs.remove(player);
-                    hit1.remove(player);
                     connection.sendPacket(new PacketPlayOutEntityDestroy(npc.getBukkitEntity().getEntityId()));
                     connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
                 }
-            }, 90L);
+            }, 300L);
 
             connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 
@@ -99,21 +125,17 @@ public class Killaura implements Listener {
                         if ((Integer.parseInt(f.get(packet).toString()) == npc.getId())) {
                             Bukkit.getScheduler().runTask(Bukkit.getPluginManager().getPlugin("FairPlay"), new Runnable() {
                                 public void run() {
-                                    if (vl1.contains(player)) {
-                                        if (vl4.contains(player)) {
-                                            if (vl5.contains(player)) {
-                                                Logger.log(player.getDisplayName() + " failed Killaura VL 100% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
-                                                Ban.ban(player);
-                                            } else {
-                                                vl5.add(player);
-                                            }
-                                        } else {
-                                            Logger.log(player.getDisplayName() + " failed Killaura VL 80% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
-                                            vl4.add(player);
+                                    killauravl.add(player);
+                                    int s = 0;
+                                    for (int i = 0; i < killauravl.size(); i++) {
+                                        if (Objects.equals(player.getDisplayName(), player.getDisplayName())) ++s;
+                                    }
+                                    Logger.log(player.getDisplayName() + " failed Killaura | VL " + s + " | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
+                                    if (s >= 5) {
+                                        for (int i = 0; i < killauravl.size(); i++) {
+                                            killauravl.remove(player);
                                         }
-                                    } else {
-                                        Logger.log(player.getDisplayName() + " failed Killaura VL 20% | Entity id: " + npc.getId() + " | Is authed: " + player.hasPermission("ac.execnpccmds"));
-                                        vl1.add(player);
+                                        Ban.ban(player);
                                     }
                                 }
                             });
@@ -132,11 +154,10 @@ public class Killaura implements Listener {
                 public void run() {
                     npc.yaw = getRotation(npc.getBukkitEntity().getLocation(), player.getLocation());
 
-
                     npc.setLocation(
-                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -3 - 1)))).getX(),
-                            player.getLocation().getY() + player.getLocation().getPitch() / 40,
-                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -3 - 1)))).getZ(),
+                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -5 - 1)))).getX(),
+                            player.getLocation().getY() + player.getLocation().getPitch() / 40 + 3,
+                            player.getLocation().add(player.getLocation().getDirection().multiply((double) ((int) (Math.random() * -5 - 1)))).getZ(),
                             npc.yaw,
                             0
                     );
@@ -147,6 +168,7 @@ public class Killaura implements Listener {
                     connection.sendPacket(new PacketPlayOutEntityTeleport(npc));
                 }
             }, 1L, 1L);
+        } catch (Exception ignored) { }
     }
 
     public static float getRotation(Location loc, Location target) {
@@ -160,10 +182,10 @@ public class Killaura implements Listener {
     }
 
     @EventHandler
-    public void onPlayerLeave(PlayerQuitEvent event) {
-        Channel channel = ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.networkManager.channel;
+    public void onPlayerLeave(PlayerQuitEvent e) {
+        Channel channel = ((CraftPlayer) e.getPlayer()).getHandle().playerConnection.networkManager.channel;
         channel.eventLoop().submit(() -> {
-            channel.pipeline().remove(event.getPlayer().getName());
+            channel.pipeline().remove(e.getPlayer().getName());
             return null;
         });
     }

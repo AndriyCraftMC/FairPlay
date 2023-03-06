@@ -1,3 +1,7 @@
 name: FairPlay
-version: '${project.version}'
+version: '1.0.0'
 main: FairPlay.FairPlay
+description: "Basic Spigot anticheat"
+permissions:
+  FairPlay:
+    FlagsLog:
