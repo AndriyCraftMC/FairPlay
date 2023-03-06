@@ -22,6 +22,7 @@ Only 1.12.2 is supported
 [] Config
 [] Custom kick messages
 [] Fully patch fly
+[] 1.16.5 support
 [x] Fully patch speed
 
 # License
