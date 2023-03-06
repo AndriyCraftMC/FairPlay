@@ -2,13 +2,13 @@
 
 An anticheat, that i made, and i use it on my servers
 
-Please, do not use this anticheat on your servers.
+Please, do not use this anticheat on your servers, because it isn't stable rn
 
 Only 1.12.2 is supported
 
 # Current checks
 
-1. Killaura
+1. Killaura/Multiaura
 2. Fly (mostly)
 3. KBFly 
 4. Selfhit
