@@ -19,11 +19,11 @@ Only 1.12.2 is supported
 
 # TODO list
 
-[] Config
-[] Custom kick messages
-[] Fully patch fly
-[] 1.16.5 support
-[x] Fully patch speed
+1. [] Config
+2. [] Custom kick messages
+3. [] Fully patch fly
+4. [] 1.16.5 support
+5. [x] Fully patch speed
 
 # License
 
