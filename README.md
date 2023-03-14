@@ -8,7 +8,7 @@ Only 1.12.2 is supported
 
 # Current checks
 
-1. Killaura/Multiaura
+1. Killaura
 2. Fly (mostly)
 3. KBFly 
 4. Selfhit
@@ -19,10 +19,10 @@ Only 1.12.2 is supported
 
 # TODO list
 
-1. [] Config
-2. [] Custom kick messages
-3. [] Fully patch fly
-4. [] 1.16.5 support
+1. [ ] Config
+2. [ ] Custom kick messages
+3. [ ] Fully patch fly
+4. [ ] 1.16.5 support
 5. [x] Fully patch speed
 
 # License
