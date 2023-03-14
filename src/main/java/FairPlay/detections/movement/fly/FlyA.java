@@ -1,14 +1,13 @@
-package FairPlay.detections;
+package FairPlay.detections.movement.fly;
 
-import FairPlay.data.Ban;
+import FairPlay.data.Punishment;
+import FairPlay.log.Flag;
 import FairPlay.log.Logger;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,7 +19,7 @@ import java.util.Objects;
 
 import static FairPlay.data.PingManager.getPing;
 
-public class Fly implements Listener {
+public class FlyA implements Listener {
     public static ArrayList<Player> flyvl = new ArrayList<>();
 
     public static ArrayList<Player> flywhitelist = new ArrayList<>();
@@ -29,10 +28,10 @@ public class Fly implements Listener {
         Location playerLocation = player.getLocation();
         World world = player.getWorld();
 
-        int radius = 10;
+        int radius = 15;
 
         for (int x = playerLocation.getBlockX() - radius; x <= playerLocation.getBlockX() + radius; x++) {
-            for (int y = 0; y <= 255; y++) {
+            for (int y = -255; y <= 255; y++) {
                 for (int z = playerLocation.getBlockZ() - radius; z <= playerLocation.getBlockZ() + radius; z++) {
                     Block block = world.getBlockAt(x, y, z);
                     if (block.getType() == Material.SLIME_BLOCK) {
@@ -74,7 +73,7 @@ public class Fly implements Listener {
         if ((event.getTo().getY() - event.getFrom().getY()) >= maxmovement) {
             if (isSlimeblockNear(event.getPlayer())) {
                 if (flywhitelist.contains(event.getPlayer())) return;
-                Logger.log(player.getDisplayName() + " might be trying to bypass Fly using slimeblocks!");
+                Logger.log(player.getDisplayName() + " might be trying to bypass FlyA using slimeblocks!");
                 flywhitelist.add(event.getPlayer());
             } else {
                 flywhitelist.remove(event.getPlayer());
@@ -83,12 +82,12 @@ public class Fly implements Listener {
                 for (int i = 0; i < flyvl.size(); i++) {
                     if (Objects.equals(event.getPlayer().getDisplayName(), event.getPlayer().getDisplayName())) ++s;
                 }
-                Logger.log(player.getDisplayName() + " failed Fly | Speed: " + maxmovement + " | VL " + s + " | Is authed: " + player.hasPermission("ac.execnpccmds") + " | Ping: " + getPing(player));
+                Flag.flag("Fly/A", player, "MaxSpeed: " + maxmovement + " VL" + s);
                 if (s >= 25) {
                     for (int i = 0; i < flyvl.size(); i++) {
                         flyvl.remove(event.getPlayer());
                     }
-                    Ban.ban(player);
+                    Punishment.punish(player);
                 } else {
                     event.setCancelled(true);
                 }

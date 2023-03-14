@@ -10,22 +10,22 @@ public class EventLogger implements Listener {
 
     @EventHandler
     public static void PlayerJoinEvent(PlayerJoinEvent e) {
-        Logger.eventLog(e.getPlayer().getDisplayName() + " joined the server with uuid " + e.getPlayer().getUniqueId() + " with IP " + e.getPlayer().getAddress().getAddress().toString());
+        Logger.eventLog(e.getPlayer().getDisplayName() + " joined the server with UUID " + e.getPlayer().getUniqueId() + " with IP " + e.getPlayer().getAddress().getAddress().toString());
     }
 
     @EventHandler
     public static void PlayerQuitEvent(PlayerQuitEvent e) {
-        Logger.eventLog(e.getPlayer().getDisplayName() + " left the server with uuid with IP " + e.getPlayer().getAddress().getAddress().toString());
+        Logger.eventLog(e.getPlayer().getDisplayName() + " left the server with IP " + e.getPlayer().getAddress().getAddress().toString());
     }
 
     @EventHandler
-    public static void PlayerChatEvent(PlayerChatEvent e) {
-        Logger.eventLog(e.getPlayer().getDisplayName() + " chatted: " + e.getMessage());
+    public static void PlayerChatEvent(AsyncPlayerChatEvent e) {
+        Logger.eventLog(e.getPlayer().getDisplayName() + " sent message: " + e.getMessage());
     }
 
     @EventHandler
     public static void PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
-        Logger.eventLog(e.getPlayer().getDisplayName() + " used cmd: " + e.getMessage());
+        Logger.eventLog(e.getPlayer().getDisplayName() + " used command: " + e.getMessage());
     }
 
     @EventHandler

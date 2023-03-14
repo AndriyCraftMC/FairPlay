@@ -1,21 +1,17 @@
-package FairPlay.detections;
+package FairPlay.detections.misc.dropall;
 
-import FairPlay.data.Ban;
+import FairPlay.data.Punishment;
 import FairPlay.data.Items;
-import FairPlay.log.Logger;
-import org.bukkit.Bukkit;
+import FairPlay.log.Flag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import java.io.IOException;
-
-public class DropAll implements Listener {
-
+public class DropAllA implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
-    public void onItemDrop (PlayerDropItemEvent e) throws IOException {
+    public void onItemDrop (PlayerDropItemEvent e)  {
         Player p = e.getPlayer();
         Items.getItems().add(p);
         int timesfound = 0;
@@ -23,12 +19,10 @@ public class DropAll implements Listener {
             if (item == p) {
                 timesfound++;
                 if (timesfound > 20) {
-                    Logger.log(e.getPlayer().getDisplayName() + " failed .drop all (+9 items) VL 100%");
-                    Ban.ban(e.getPlayer());
+                    Flag.flag("DropAllA/A", e.getPlayer(), "Dropped 20+ items in 1 sec");
+                    Punishment.punish(e.getPlayer());
                 }
             }
         }
     }
-
-
 }

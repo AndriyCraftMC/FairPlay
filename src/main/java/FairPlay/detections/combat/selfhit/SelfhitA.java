@@ -1,21 +1,21 @@
-package FairPlay.detections;
+package FairPlay.detections.combat.selfhit;
 
-import FairPlay.data.Ban;
-import FairPlay.log.Logger;
+import FairPlay.data.Punishment;
+import FairPlay.log.Flag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class Selfhit implements Listener {
+public class SelfhitA implements Listener {
     @EventHandler
     public void damage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
             Player player = (Player) e.getDamager();
 
             if (e.getEntity() == player) {
-                Logger.log(player.getDisplayName() + " failed Selfhit | Is authed: " + player.hasPermission("ac.execnpccmds"));
-                Ban.ban(player);
+                Flag.flag("Selfhit/A", player, "Not possible with vanilla client");
+                Punishment.punish(player);
                 e.setCancelled(true);
             }
         }
